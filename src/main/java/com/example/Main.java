@@ -94,7 +94,7 @@ public class Main {
           last_article = title_art;
 
         String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
-        String apiToken = "5635342275:AAH06bwwFho8DXjCD-6cdfHQ-XYUbYYYBWg";
+        String apiToken = "5635342275:AAH06bwwFho8DXjCD";
         String apiToken_old = "-6cdfHQ-XYUbYYYBWg";
         String chatId = "@costanzo_news";
         String text = "MSG " + title_art + " " + "https://www.iiscostanzodecollatura.edu.it/" +link_art;

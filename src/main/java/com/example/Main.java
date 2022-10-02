@@ -18,6 +18,9 @@ package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -26,13 +29,28 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Logger;
+
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 
 @Controller
 @SpringBootApplication
@@ -48,11 +66,63 @@ public class Main {
     SpringApplication.run(Main.class, args);
   }
 
+  @PostConstruct
+  public void start() throws IOException, InterruptedException {
+    String last_article=null;
+
+    while(true) {
+      Document doc = Jsoup.connect("https://www.iiscostanzodecollatura.edu.it/").get();
+      String title = doc.title();
+      Elements es = doc.getElementsByAttributeValue("class", "jsn-article");
+      boolean first = true;
+      for (Element e : es) {
+        // articolo
+        Element article = e.children().first().children().first();
+        String link_art = article.attr("href");
+        String title_art = article.text();
+        System.out.println(link_art + " - " + title_art);
+
+        if(link_art.equalsIgnoreCase(last_article)){
+          System.out.println("Trovato articolo già gestito");
+          break;
+        }
+
+        if(last_article == null && first)
+          last_article = title_art;
+
+        if(first)
+          last_article = title_art;
+
+        String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
+        String apiToken = "5635342275:AAH06bwwFho8DXjCD-6cdfHQ-XYUbYYYBWg";
+        String apiToken_old = "-6cdfHQ-XYUbYYYBWg";
+        String chatId = "@costanzo_news";
+        String text = "MSG " + title_art + " " + "https://www.iiscostanzodecollatura.edu.it/" +link_art;
+        urlString = String.format(urlString, apiToken+apiToken_old, chatId, text);
+        URL url = new URL(urlString);
+        URLConnection conn = url.openConnection();
+        conn.getInputStream();
+
+        first = false;
+      }
+
+      System.out.println("" + title);
+      Thread.sleep(300000);
+    }
+
+  }
+
   @RequestMapping("/")
   String index() {
     return "index";
   }
 
+  @RequestMapping("/test")
+  String test(Map<String, Object> model) {
+
+    System.out.println("CIAOOOOOOOOOOOOOOOOOO");
+    return "";
+  }
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {

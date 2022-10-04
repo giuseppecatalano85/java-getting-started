@@ -31,8 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,7 +66,7 @@ public class Main {
   }
 
   @PostConstruct
-  public void start() throws IOException, InterruptedException {
+  public void start() throws IOException, InterruptedException, URISyntaxException {
     String last_article=null;
 
     while(true) {

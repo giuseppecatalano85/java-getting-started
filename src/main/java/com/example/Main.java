@@ -73,8 +73,14 @@ public class Main {
     while(true) {
 
 
-      File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-      File file = new File(jarFile.getParentFile().getParent(), "data.txt");
+      // File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+      // File file = new File(jarFile.getParentFile().getParent(), "data.txt");
+
+
+      File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+      String inputFilePath = jarFile.getParent() + File.separator + "data.txt";
+      File file = new File(inputFilePath);
+
 
       // InputStream is = getClass().getClassLoader().getResourceAsStream("data.txt");
       // BufferedReader br = new BufferedReader(new InputStreamReader(is));

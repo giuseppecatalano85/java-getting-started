@@ -78,6 +78,7 @@ public class Main {
 
       File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
       String inputFilePath = jarFile.getParent() + File.separator + "data.txt";
+      System.out.println(inputFilePath);
       File file = new File(inputFilePath);
 
 

@@ -84,15 +84,15 @@ public class Main {
 
       // InputStream is = getClass().getClassLoader().getResourceAsStream("data.txt");
       // BufferedReader br = new BufferedReader(new InputStreamReader(is));
-      InputStream is = new FileInputStream(file);
-      BufferedReader br = new BufferedReader(new InputStreamReader(is));
-      String line = br.readLine();
+      //InputStream is = new FileInputStream(file);
+      //BufferedReader br = new BufferedReader(new InputStreamReader(is));
+      /*String line = br.readLine();
       if(line != null){
         System.out.println("LAST ARTICLE:" + line);
         last_article = line;
       }
       is.close();
-
+    */
 
 
 

@@ -75,12 +75,12 @@ public class Main {
       // File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
       // File file = new File(jarFile.getParentFile().getParent(), "data.txt");
 
-
+      /*
       File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
       String inputFilePath = jarFile.getParent() + File.separator + "data.txt";
       System.out.println(inputFilePath);
       File file = new File(inputFilePath);
-
+*/
 
       // InputStream is = getClass().getClassLoader().getResourceAsStream("data.txt");
       // BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -100,7 +100,7 @@ public class Main {
       String title = doc.title();
       Elements es = doc.getElementsByAttributeValue("class", "jsn-article");
       boolean first = true;
-      int count =0;
+      int count =2;
       for (Element e : es) {
         count ++;
         // articolo
@@ -122,10 +122,10 @@ public class Main {
 
 
 
-          PrintWriter pw = new PrintWriter(file);
+         // PrintWriter pw = new PrintWriter(file);
           // PrintWriter pw = new PrintWriter(new File(getClass().getClassLoader().getResource("data.txt").getFile()));
-          pw.write(title_art);
-          pw.close();
+          //pw.write(title_art);
+          //pw.close();
         }
 
         String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";

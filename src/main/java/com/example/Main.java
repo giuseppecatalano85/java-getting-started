@@ -146,7 +146,10 @@ public class Main {
 
 
 
-      Thread.sleep(300000);
+      Thread.sleep(75000);
+      Thread.sleep(75000);
+      Thread.sleep(75000);
+      Thread.sleep(75000);
     }
 
   }

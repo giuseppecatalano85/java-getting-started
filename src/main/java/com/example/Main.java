@@ -71,18 +71,33 @@ public class Main {
     String last_article=null;
 
     while(true) {
+
+      InputStream is = getClass().getClassLoader().getResourceAsStream("data.txt");
+      BufferedReader br = new BufferedReader(new InputStreamReader(is));
+      String line = br.readLine();
+      if(line != null){
+        System.out.println("LAST ARTICLE:" + line);
+        last_article = line;
+      }
+      is.close();
+
+
+
+
       Document doc = Jsoup.connect("https://www.iiscostanzodecollatura.edu.it/").get();
       String title = doc.title();
       Elements es = doc.getElementsByAttributeValue("class", "jsn-article");
       boolean first = true;
+      int count =0;
       for (Element e : es) {
+        count ++;
         // articolo
         Element article = e.children().first().children().first();
         String link_art = article.attr("href");
         String title_art = article.text();
         System.out.println(link_art + " - " + title_art);
 
-        if(link_art.equalsIgnoreCase(last_article)){
+        if(title_art.equalsIgnoreCase(last_article)){
           System.out.println("Trovato articolo già gestito");
           break;
         }
@@ -90,8 +105,12 @@ public class Main {
         if(last_article == null && first)
           last_article = title_art;
 
-        if(first)
+        if(first) {
           last_article = title_art;
+          PrintWriter pw = new PrintWriter(new File(getClass().getClassLoader().getResource("data.txt").getFile()));
+          pw.write(title_art);
+          pw.close();
+        }
 
         String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
         String apiToken = "5635342275:AAH06bwwFho8DXjCD";
@@ -104,10 +123,14 @@ public class Main {
         conn.getInputStream();
 
         first = false;
+        if(count > 4)
+          break;
       }
 
-      System.out.println("" + title);
-      Thread.sleep(300000);
+
+
+
+      Thread.sleep(30000);
     }
 
   }

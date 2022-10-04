@@ -72,7 +72,13 @@ public class Main {
 
     while(true) {
 
-      InputStream is = getClass().getClassLoader().getResourceAsStream("data.txt");
+
+      File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+      File file = new File(jarFile.getParentFile().getParent(), "data.txt");
+
+      // InputStream is = getClass().getClassLoader().getResourceAsStream("data.txt");
+      // BufferedReader br = new BufferedReader(new InputStreamReader(is));
+      InputStream is = new FileInputStream(file);
       BufferedReader br = new BufferedReader(new InputStreamReader(is));
       String line = br.readLine();
       if(line != null){
@@ -107,7 +113,11 @@ public class Main {
 
         if(first) {
           last_article = title_art;
-          PrintWriter pw = new PrintWriter(new File(getClass().getClassLoader().getResource("data.txt").getFile()));
+
+
+
+          PrintWriter pw = new PrintWriter(file);
+          // PrintWriter pw = new PrintWriter(new File(getClass().getClassLoader().getResource("data.txt").getFile()));
           pw.write(title_art);
           pw.close();
         }

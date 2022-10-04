@@ -130,7 +130,7 @@ public class Main {
 
 
 
-      Thread.sleep(30000);
+      Thread.sleep(300000);
     }
 
   }
